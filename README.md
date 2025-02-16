@@ -12,6 +12,13 @@ This application is a Streamlit-based interface that allows users to upload and 
 - **Question Answering**: Allows users to ask questions; the application provides answers based on retrieved context.
 - **Chat History**: Maintains a history of the conversation with the assistant.
 
+## UI
+![Screenshot 2025-02-16 181710](https://github.com/user-attachments/assets/89018bdf-582a-4742-b191-89408b970b84)
+![Screenshot 2025-02-16 181721](https://github.com/user-attachments/assets/fe5ff5cd-05a9-43b1-9a7b-cf1b46b1faa8)
+![Screenshot 2025-02-16 182557](https://github.com/user-attachments/assets/7264e6ab-ec61-499c-8bb4-680d90710ea7)
+
+
+
 ## Requirements
 
 - Python 3.9 or higher
