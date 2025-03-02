@@ -18,7 +18,7 @@ from langchain.prompts import PromptTemplate
 load_dotenv()
 
 # Set page configuration
-st.set_page_config(page_title="RAG Flow Application", layout="wide")
+st.set_page_config(page_title="QueryMaster", layout="wide")
 
 # Custom CSS styling
 st.markdown("""
@@ -71,13 +71,18 @@ st.title("🔍 Multimedia Retrieval-Augmented Generation (RAG) Framework for Uni
 with st.sidebar:
     st.header("⚙️ Configuration")
     api_key = st.text_input("🔑 OpenAI API Key", type="password")
-    available_models = ["gpt-3.5-turbo", "gpt-4", "gpt-4o-mini"]
+    available_models = ["gpt-3.5-turbo", "gpt-4o", "gpt-4o-mini"]
     model_name = st.selectbox("🤖 Choose Model", available_models)
     
     if api_key and model_name:
-        os.environ["OPENAI_API_KEY"] = api_key
-        llm = ChatOpenAI(model_name=model_name, openai_api_key=api_key)
-        st.success("✅ API key and model validated!")
+          if not api_key.startswith("sk-"):
+                 st.error("❌ Invalid API key format.")
+          else:
+                  os.environ["OPENAI_API_KEY"] = api_key
+                  llm = ChatOpenAI(model_name=model_name, openai_api_key=api_key)
+                  st.success("✅ API key  validated!")
+
+
     
     # File Uploaders
     st.subheader("📂 Data Sources")
@@ -146,12 +151,16 @@ if load_data_button:
         retriever = vectorstore.as_retriever()
 
         PROMPT_TEMPLATE = """
-        You are an intelligent assistant designed for answering questions based on retrieved context.
-Carefully read the provided context and use it exclusively to formulate your response.
-If the context does not contain enough information to answer the question, explicitly state:
-"I don't know based on the provided context."
-Your responses should be clear, relevant, and limited to three sentences or fewer.
-Do not include information beyond the given context.
+       "You are an intelligent assistant designed for answering questions "
+    "and summarizing content based on retrieved context. Carefully read "
+    "the provided context and use it exclusively to generate a response. "
+    "If the query asks for a summary, provide a concise summary of the "
+    "retrieved information. If the context does not contain enough information, "
+    "explicitly state: 'I don't know based on the provided context.' "
+    "Your responses should be clear, relevant, and limited to three sentences "
+    "or fewer unless summarization is requested, in which case keep it "
+    "brief but informative."
+    "\n\n{context}"
         
         Context:
         {context}
